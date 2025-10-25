@@ -124,58 +124,63 @@ Aplicația poate fi dezvoltată progresiv până la o soluție completă de gest
 
 Diagrama de mai jos reprezintă principalele clase ale sistemului și relațiile dintre acestea.
 
-```mermaid
 classDiagram
-    class Client {
-        -int idClient
+    class User {
+        -int idUser
+        -String username
+        -String parola
         -String nume
-        -String prenume
-        -String telefon
         -String email
+    }
+
+    class Client {
+        -String telefon
         +getMasini(): List<Masina>
     }
 
-    class Masina {
-        -int idMasina
-        -String marca
-        -String model
-        -int anFabricatie
-        -String nrInmatriculare
-        -int idClient
-    }
-
-    class Programare {
-        -int idProgramare
-        -Date dataProgramare
-        -String descriereLucrare
-        -String status
-        -int idMasina
-        -int idMecanic
-    }
-
     class Mecanic {
-        -int idMecanic
-        -String nume
         -String specializare
         -int experientaAni
     }
 
+    class Administrator {
+        +creeazaCont(User u)
+        +stergeCont(User u)
+    }
+
+    class Masina {
+        -String marca
+        -String model
+        -String nrInmatriculare
+    }
+
+    class Programare {
+        -Date dataProgramare
+        -String descriereLucrare
+        -String status
+    }
+
     class Piesa {
-        -int idPiesa
         -String denumire
         -double pretUnitate
-        -int stoc
     }
 
     class Factura {
-        -int idFactura
-        -int idProgramare
         -double valoareTotala
         -Date dataEmitere
     }
 
+    User <|-- Client
+    User <|-- Mecanic
+    User <|-- Administrator
+
     Client "1" --> "many" Masina
     Masina "1" --> "many" Programare
+    Programare "many" --> "1" Mecanic
+    Programare "1" --> "1" Factura
+    Programare "many" --> "many" Piesa
+    Administrator "1" --> "many" User : gestionează
+
     Programare "1" --> "1" Mecanic
     Programare "many" --> "many" Piesa
     Programare "1" --> "1" Factura
