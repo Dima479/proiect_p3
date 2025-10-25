@@ -1,1 +1,135 @@
 # proiect_p3
+# Sistem de Management al Reparațiilor Auto  
+## Car Service Manager
+
+---
+
+## 1. Descriere generală
+Proiectul **„Sistem de management al reparațiilor auto”** are ca scop dezvoltarea unei aplicații care să faciliteze evidența și gestionarea activităților dintr-un service auto.  
+Aplicația permite înregistrarea clienților, a autovehiculelor, a programărilor pentru reparații, a pieselor utilizate și a facturilor generate.  
+Prin implementarea acestui sistem se urmărește optimizarea fluxului de lucru, reducerea erorilor administrative și automatizarea proceselor repetitive.
+
+---
+
+## 2. Obiective
+- Crearea unei aplicații modulare, ușor de extins.  
+- Implementarea unei structuri de date coerente care să reflecte relațiile dintre entitățile domeniului.  
+- Asigurarea persistenței datelor (prin fișiere text sau bază de date).  
+- Oferirea unei interfețe simple și eficiente pentru utilizatori.  
+- Respectarea principiilor de programare orientată pe obiecte (încapsulare, moștenire, polimorfism).
+
+---
+
+## 3. Funcționalități principale
+- **Gestionare clienți:** adăugare, modificare, ștergere, căutare după nume sau CNP.  
+- **Gestionare autovehicule:** asocierea unei mașini la un client, stocarea informațiilor tehnice (marca, model, an, număr de înmatriculare).  
+- **Programări service:** înregistrarea lucrărilor programate, actualizarea stării („planificată”, „în lucru”, „finalizată”).  
+- **Gestionare piese de schimb:** adăugare piese, actualizare stoc, calcul costuri utilizare.  
+- **Facturare automată:** generare factură pe baza pieselor utilizate și a manoperei.  
+- **Gestionare roluri:** diferențiere între utilizatorii de tip administrator, mecanic și client.
+
+---
+
+## 4. Modelul conceptual al datelor
+Principalele entități ale sistemului:
+- `Client`
+- `Masina`
+- `Programare`
+- `Mecanic`
+- `Piesa`
+- `Factura`
+
+### Relații:
+- Un **client** poate deține mai multe **mașini**.  
+- O **mașină** poate avea mai multe **programări**.  
+- O **programare** este efectuată de un **mecanic** și poate utiliza mai multe **piese**.  
+- Pentru fiecare programare finalizată se emite o **factură**.
+
+---
+
+## 5. Structura proiectului
+src/
+├── model/
+│ ├── Client.java
+│ ├── Masina.java
+│ ├── Programare.java
+│ ├── Piesa.java
+│ ├── Mecanic.java
+│ └── Factura.java
+│
+├── service/
+│ ├── ClientService.java
+│ ├── ProgramareService.java
+│ ├── FacturaService.java
+│
+├── repository/
+│ ├── FileRepository.java
+│ ├── DatabaseConnection.java (opțional)
+│
+├── ui/
+│ └── MainMenu.java
+│
+└── Main.java
+
+---
+
+## 11. Model UML al claselor
+
+Diagrama de mai jos reprezintă principalele clase ale sistemului și relațiile dintre acestea.
+
+```mermaid
+classDiagram
+    class Client {
+        -int idClient
+        -String nume
+        -String prenume
+        -String telefon
+        -String email
+        +getMasini(): List<Masina>
+    }
+
+    class Masina {
+        -int idMasina
+        -String marca
+        -String model
+        -int anFabricatie
+        -String nrInmatriculare
+        -int idClient
+    }
+
+    class Programare {
+        -int idProgramare
+        -Date dataProgramare
+        -String descriereLucrare
+        -String status
+        -int idMasina
+        -int idMecanic
+    }
+
+    class Mecanic {
+        -int idMecanic
+        -String nume
+        -String specializare
+        -int experientaAni
+    }
+
+    class Piesa {
+        -int idPiesa
+        -String denumire
+        -double pretUnitate
+        -int stoc
+    }
+
+    class Factura {
+        -int idFactura
+        -int idProgramare
+        -double valoareTotala
+        -Date dataEmitere
+    }
+
+    Client "1" --> "many" Masina
+    Masina "1" --> "many" Programare
+    Programare "1" --> "1" Mecanic
+    Programare "many" --> "many" Piesa
+    Programare "1" --> "1" Factura
+
