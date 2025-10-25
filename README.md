@@ -123,7 +123,7 @@ Aplicația poate fi dezvoltată progresiv până la o soluție completă de gest
 ## 11. Model UML al claselor
 
 Diagrama de mai jos reprezintă principalele clase ale sistemului și relațiile dintre acestea.
-
+```mermaid
 classDiagram
     class User {
         -int idUser
