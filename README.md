@@ -1,5 +1,5 @@
 
-## Sistem de Management al Reparațiilor Auto  
+### Sistem de Management al Reparațiilor Auto  
 
 ## Descriere generală
 Proiectul **„Sistem de management al reparațiilor auto”** are ca scop dezvoltarea unei aplicații care să faciliteze evidența și gestionarea activităților dintr-un service auto.  
