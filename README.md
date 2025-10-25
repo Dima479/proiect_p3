@@ -73,6 +73,53 @@ src/
 
 ---
 
+
+
+---
+
+## 6. Persistența datelor
+Aplicația asigură stocarea persistentă a informațiilor prin:
+- **Fișiere text (`.txt`, `.csv`)** – pentru structuri simple, citite și rescrise complet la fiecare actualizare; sau  
+- **Bază de date relațională (MySQL / SQLite)** – pentru gestionare avansată a datelor, utilizând JDBC.
+
+---
+
+## 7. Scenariu de utilizare
+1. Administratorul adaugă un client nou și autovehiculul asociat acestuia.  
+2. Se creează o programare, specificând data, descrierea lucrării și mecanicul responsabil.  
+3. Mecanicul actualizează starea lucrării și introduce piesele folosite.  
+4. La finalizarea lucrării, aplicația generează o factură cu detaliile costurilor.  
+5. Clientul poate vizualiza istoricul lucrărilor efectuate asupra autovehiculului.
+
+---
+
+## 8. Tehnologii și concepte utilizate
+- **Limbaj:** Java SE  
+- **Paradigmă:** Programare orientată pe obiecte (OOP)  
+- **Persistență:** Fișiere text / JDBC + MySQL  
+- **Gestionare colecții:** List, Map, Stream API  
+- **Interfață:** consolă (CLI) sau interfață grafică (JavaFX / Swing)  
+- **Arhitectură:** Model – Service – Repository – UI
+
+---
+
+## 9. Extensii posibile
+- Export automat al facturilor în format PDF.  
+- Generarea de rapoarte lunare privind numărul de lucrări și veniturile totale.  
+- Notificări automate prin e-mail pentru programările viitoare.  
+- Implementarea unei versiuni web cu Spring Boot și MySQL.
+
+---
+
+## 10. Concluzii
+Proiectul oferă o bază solidă pentru gestionarea operațiunilor unui service auto.  
+Designul modular, împărțirea pe straturi logice și utilizarea principiilor OOP facilitează întreținerea, testarea și extinderea ulterioară a sistemului.  
+Aplicația poate fi dezvoltată progresiv până la o soluție completă de gestiune pentru ateliere auto.
+
+---
+
+
+
 ## 11. Model UML al claselor
 
 Diagrama de mai jos reprezintă principalele clase ale sistemului și relațiile dintre acestea.
