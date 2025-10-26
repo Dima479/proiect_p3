@@ -77,6 +77,7 @@ Proiectul „Sistem de management al reparațiilor auto” este o aplicație ori
 - Bază de date relațională (MySQL / SQLite) pentru versiunea finală.  
 
 **Structura tabelelor:**  
+```text
 User(User_ID, Name, Email, Password, Role)
 Client(User_ID, CNP, Ph_Number)
 Mecanic(User_ID, Experience, Rating)
@@ -85,7 +86,7 @@ Reservation(Rez_ID, Date, Status, Details, Car_ID, Mecanic_ID)
 Used_Parts(Rez_ID, Part_ID, Quantity)
 Part(Part_ID, Name, Price, Stock)
 Receipt(Receipt_ID, Value, Date, Rez_ID)
-
+```
 ## 5. Scenariu de utilizare
 
 1. Administratorul adaugă un client și vehiculul asociat acestuia.  
