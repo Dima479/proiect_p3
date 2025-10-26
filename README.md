@@ -77,7 +77,6 @@ Proiectul „Sistem de management al reparațiilor auto” este o aplicație ori
 - Bază de date relațională (MySQL / SQLite) pentru versiunea finală.  
 
 **Structura tabelelor:**  
-```text
 User(User_ID, Name, Email, Password, Role)
 Client(User_ID, CNP, Ph_Number)
 Mecanic(User_ID, Experience, Rating)
@@ -86,3 +85,34 @@ Reservation(Rez_ID, Date, Status, Details, Car_ID, Mecanic_ID)
 Used_Parts(Rez_ID, Part_ID, Quantity)
 Part(Part_ID, Name, Price, Stock)
 Receipt(Receipt_ID, Value, Date, Rez_ID)
+
+## 5. Scenariu de utilizare
+
+1. Administratorul adaugă un client și vehiculul asociat acestuia.  
+2. Clientul creează o rezervare pentru reparație.  
+3. Mecanicul pornește reparația:  
+   - Sistemul verifică automat piesele necesare.  
+   - Dacă piesele lipsesc → status `PENDING_PARTS` și alertă către administrator.  
+4. După finalizarea reparației, se generează automat factura (`Receipt`).  
+5. Administratorul poate consulta rapoarte privind piesele utilizate și veniturile generate.
+
+---
+
+## 6. Tehnologii și concepte utilizate
+
+- **Limbaj:** Java SE  
+- **Paradigmă:** Programare Orientată pe Obiecte (OOP)  
+- **Persistență:** Fișiere text / JDBC + MySQL  
+- **Colecții:** `List`, `Map`, `Stream API`  
+- **Enum:** pentru roluri și statusuri  
+- **Interfață:** Consolă (CLI), extensibilă la GUI (JavaFX / Swing)  
+
+---
+
+## 7. Extensii viitoare
+
+- Export automat al facturilor în PDF  
+- Generarea de rapoarte statistice și analize de performanță (piese utilizate, venituri, top mecanici)  
+- Notificări automate pentru programările viitoare sau stocurile lipsă  
+- Implementarea unei versiuni web (Spring Boot + MySQL)  
+
