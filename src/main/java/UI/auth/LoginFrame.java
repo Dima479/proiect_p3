@@ -2,7 +2,7 @@ package ui.auth;
 
 import model.User;
 import service.AuthService;
-import ui.MainFrame;
+import UI.MainFrame;
 import ui.common.SessionContext;
 
 import javax.swing.*;
