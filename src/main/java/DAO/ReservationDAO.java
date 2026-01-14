@@ -35,10 +35,6 @@ public class ReservationDAO {
         }
     }
 
-    /**
-     * Gaseste o rezervare si incarca fortat (eagerly) lista de piese asociate
-     * pentru a evita LazyInitializationException.
-     */
     public Reservation findByIdWithDetails(int id) {
         EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
         try {
@@ -96,6 +92,28 @@ public class ReservationDAO {
         try {
             // Incarcam si masinile pentru a evita probleme similare in tabel
             return em.createQuery("SELECT DISTINCT r FROM Reservation r LEFT JOIN FETCH r.car", Reservation.class).getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Reservation> findReservationsByMechanicId(int mechanicId) {
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        try {
+            return em.createQuery("SELECT r FROM Reservation r WHERE r.mechanic.user_ID = :mechanicId", Reservation.class)
+                    .setParameter("mechanicId", mechanicId)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Reservation> findReservationsByCarId(int carId) {
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        try {
+            return em.createQuery("SELECT r FROM Reservation r WHERE r.car.car_ID = :carId", Reservation.class)
+                    .setParameter("carId", carId)
+                    .getResultList();
         } finally {
             em.close();
         }

@@ -79,4 +79,15 @@ public class CarDAO {
             em.close();
         }
     }
+
+    public List<Car> findByOwnerId(int ownerId) {
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        try {
+            return em.createQuery("SELECT c FROM Car c WHERE c.ownerID = :ownerId", Car.class)
+                    .setParameter("ownerId", ownerId)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
 }
