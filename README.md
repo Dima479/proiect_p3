@@ -1,26 +1,46 @@
-# Service Management UI
+# Sistem de Management al Service-ului Auto
 
-This project is a Java Swing UI for a service management application.
+Acest proiect este o aplicație desktop pentru managementul unui service auto, dezvoltată în Java Swing. Aplicația permite gestionarea clienților, mașinilor, mecanicilor, reparațiilor și a stocului de piese.
 
-## How to Run
+## Tehnologii Utilizate
 
-1.  Make sure you have a MySQL database running with the schema `service_auto_db`.
-2.  Update the database credentials in `src/main/resources/META-INF/persistence.xml`.
-3.  Run the `App.java` file to start the application.
-4.  Log in with a user from your database. Example credentials might be:
-    -   **Admin**: `admin@service.ro` / `pass123`
-    -   **Client**: `client@yahoo.com` / `clientpass`
+- **Java 11**: Limbajul de programare principal.
+- **Swing**: Pentru interfața grafică (GUI).
+- **Hibernate**: Pentru persistența datelor (ORM).
+- **MySQL**: Baza de date relațională.
+- **Maven**: Pentru managementul dependențelor și build-ul proiectului.
 
-## UI Screens
+## Funcționalități
 
-### Common
--   **Login**: Authenticates users.
+Aplicația oferă funcționalități diferite în funcție de rolul utilizatorului autentificat:
 
-### Client Role
--   **My Cars**: Lists all cars owned by the logged-in client.
+### Administrator
+- **Management Clienți**: Vizualizarea și gestionarea clienților.
+- **Management Mașini**: Vizualizarea și gestionarea mașinilor.
+- **Management Mecanici**: Adăugarea, vizualizarea și asignarea mecanicilor la reparații.
+- **Management Stoc**: Gestionarea stocului de piese.
 
-### Admin Role
--   **Mechanics Management**: Allows adding and deleting mechanics.
+### Mecanic
+- **Reparații Asignate**: Vizualizarea reparațiilor care i-au fost asignate.
+- **Management Clienți**: Vizualizarea clienților.
+- **Management Mașini**: Vizualizarea mașinilor.
 
-### Mechanic Role
--   (Not yet implemented)
+### Client
+- **Mașinile Mele**: Vizualizarea și gestionarea propriilor mașini.
+- **Reparațiile Mele**: Urmărirea statusului reparațiilor pentru mașinile proprii.
+- **Facturile Mele**: Vizualizarea facturilor pentru reparațiile efectuate.
+
+## Cum se rulează
+
+1. **Configurarea Bazei de Date**:
+   - Asigură-te că ai un server MySQL pornit.
+   - Creează o bază de date.
+   - Configurează detaliile conexiunii în `src/main/resources/META-INF/persistence.xml`.
+
+2. **Build și Rulare**:
+   - Proiectul folosește Maven. Poți rula aplicația dintr-un IDE (precum IntelliJ sau Eclipse) care are suport pentru Maven.
+   - Clasa principală (entry point) este `App.java`.
+
+## Autentificare
+
+Aplicația pornește cu un ecran de login. Utilizează un cont de utilizator valid (email și parolă) pentru a te autentifica. Rolul utilizatorului va determina ce funcționalități sunt disponibile.
