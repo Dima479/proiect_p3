@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+
+    <persistence-unit name="GestiuneServicePU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <class>model.User</class>
+        <class>model.Administrator</class>
+        <class>model.Client</class>
+        <class>model.Mechanic</class>
+        <class>model.Car</class>
+        <class>model.Part</class>
+        <class>model.Reservation</class>
+        <class>model.Used_Parts</class>
+        <class>model.Reciept</class>
+
+        <properties>
+            <!-- Database connection settings -->
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <!--property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/service_auto_db?useSSL=false&amp;serverTimezone=UTC"/-->
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value="Dimatalpa1$"/>
+            <property name="javax.persistence.jdbc.url"
+                      value="jdbc:mysql://localhost:3306/service_auto_db?createDatabaseIfNotExist=true&amp;useSSL=false&amp;serverTimezone=UTC"/>
+
+            <!-- Hibernate properties -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+        </properties>
+    </persistence-unit>
+</persistence>
