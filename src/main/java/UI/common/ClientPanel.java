@@ -1,4 +1,4 @@
-package UI.common;
+package ui.common;
 
 import DAO.ClientDAO;
 import model.Client;

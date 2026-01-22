@@ -9,3 +9,10 @@ public class App {
         });
     }
 }
+/**
+ * validare date la tot
+ * partea de reciepts si progrmari
+ * comentare cod
+ *
+ *
+ */

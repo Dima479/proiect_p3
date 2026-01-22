@@ -1,4 +1,4 @@
-package UI.mechanic;
+package ui.mechanic;
 
 import model.Part;
 import model.Reservation;

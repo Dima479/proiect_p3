@@ -96,26 +96,4 @@ public class ReservationDAO {
             em.close();
         }
     }
-
-    public List<Reservation> findReservationsByMechanicId(int mechanicId) {
-        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
-        try {
-            return em.createQuery("SELECT r FROM Reservation r WHERE r.mechanic.user_ID = :mechanicId", Reservation.class)
-                    .setParameter("mechanicId", mechanicId)
-                    .getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
-    public List<Reservation> findReservationsByCarId(int carId) {
-        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
-        try {
-            return em.createQuery("SELECT r FROM Reservation r WHERE r.car.car_ID = :carId", Reservation.class)
-                    .setParameter("carId", carId)
-                    .getResultList();
-        } finally {
-            em.close();
-        }
-    }
 }

@@ -1,4 +1,4 @@
-package ui.admin;
+package UI.admin;
 
 import model.Mechanic;
 import service.MechanicService;

@@ -1,4 +1,4 @@
-package UI;
+package ui;
 
 import model.User;
 import ui.admin.MechanicsManagementPanel;
@@ -8,9 +8,9 @@ import ui.client.ClientReceiptsPanel;
 import ui.client.ClientRepairsPanel;
 import ui.client.MyCarsPanel;
 import ui.common.CarPanel;
-import UI.common.ClientPanel;
+import ui.common.ClientPanel;
 import ui.common.SessionContext;
-import UI.mechanic.AssignedRepairsPanel;
+import ui.mechanic.AssignedRepairsPanel;
 
 import javax.swing.*;
 import java.awt.*;
