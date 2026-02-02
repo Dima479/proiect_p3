@@ -24,7 +24,7 @@ public class PartsInventoryPanel extends JPanel {
         JButton addButton = new JButton("Add Part");
         addButton.addActionListener(e -> addPart());
         buttonPanel.add(addButton);
-        
+
         JButton editButton = new JButton("Edit Selected");
         editButton.addActionListener(e -> editPart());
         buttonPanel.add(editButton);
@@ -40,6 +40,7 @@ public class PartsInventoryPanel extends JPanel {
 
     private void loadParts() {
         new SwingWorker<List<Part>, Void>() {
+
             @Override
             protected List<Part> doInBackground() {
                 return partService.findAll();
@@ -73,7 +74,7 @@ public class PartsInventoryPanel extends JPanel {
         int selectedRow = table.getSelectedRow();
         if (selectedRow >= 0) {
             int id = (int) tableModel.getValueAt(selectedRow, 0);
-            // This is inefficient, should be a findById in service
+
             Part partToEdit = partService.findAll().stream().filter(p -> p.getPart_ID() == id).findFirst().orElse(null);
             if (partToEdit != null) {
                 boolean success = showPartDialog(partToEdit, "Edit Part");

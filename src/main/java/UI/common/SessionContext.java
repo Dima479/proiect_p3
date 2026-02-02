@@ -7,10 +7,9 @@ public class SessionContext {
     private User currentUser;
 
     private SessionContext() {
-        // Private constructor to enforce singleton pattern
+
     }
 
-    // Added 'synchronized' to make the singleton instantiation thread-safe.
     public static synchronized SessionContext getInstance() {
         if (instance == null) {
             instance = new SessionContext();

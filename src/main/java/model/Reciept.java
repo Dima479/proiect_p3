@@ -11,7 +11,7 @@ public class Reciept {
     private int Reciept_ID;
     private float Val;
     private LocalDate Date;
-    
+
     @OneToOne
     @JoinColumn(name = "reservation_id")
     private Reservation Reservation;

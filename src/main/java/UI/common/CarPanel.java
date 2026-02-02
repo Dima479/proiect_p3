@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
+import util.ValidationUtils;
 
 public class CarPanel extends JPanel {
     private JTable table;
@@ -25,7 +26,6 @@ public class CarPanel extends JPanel {
         clientService = new ClientService();
         setLayout(new BorderLayout());
 
-        // --- Formular Adaugare ---
         JPanel formPanel = new JPanel(new GridBagLayout());
         formPanel.setBorder(BorderFactory.createTitledBorder("Adauga Masina"));
         GridBagConstraints gbc = new GridBagConstraints();
@@ -44,24 +44,21 @@ public class CarPanel extends JPanel {
         btnSave = new JButton("Salveaza");
         btnPanel.add(btnClear);
         btnPanel.add(btnSave);
-        
+
         gbc.gridx = 0; gbc.gridy = 5; gbc.gridwidth = 2;
         formPanel.add(btnPanel, gbc);
         add(formPanel, BorderLayout.NORTH);
 
-        // --- Tabel Listare ---
         String[] cols = {"ID", "Client", "Nr. Inmatriculare", "Marca", "Model"};
         tableModel = new DefaultTableModel(cols, 0);
         table = new JTable(tableModel);
         add(new JScrollPane(table), BorderLayout.CENTER);
 
-        // --- Buton Stergere ---
         JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         btnDelete = new JButton("Sterge Masina Selectata");
         southPanel.add(btnDelete);
         add(southPanel, BorderLayout.SOUTH);
 
-        // --- Evenimente ---
         btnClear.addActionListener(e -> clearForm());
         btnSave.addActionListener(e -> saveCar());
         btnDelete.addActionListener(e -> deleteCar());
@@ -78,8 +75,10 @@ public class CarPanel extends JPanel {
 
     private void loadInitialData() {
         new SwingWorker<List<Client>, Void>() {
+
             @Override
             protected List<Client> doInBackground() { return clientService.findAll(); }
+
             @Override
             protected void done() {
                 try {
@@ -93,8 +92,10 @@ public class CarPanel extends JPanel {
 
     private void refreshCarTable() {
         new SwingWorker<List<Car>, Void>() {
+
             @Override
             protected List<Car> doInBackground() { return carDAO.findAll(); }
+
             @Override
             protected void done() {
                 try {
@@ -132,9 +133,23 @@ public class CarPanel extends JPanel {
             JOptionPane.showMessageDialog(this, "Nr. de inmatriculare este obligatoriu!");
             return;
         }
-        int year = 0;
-        try { year = Integer.parseInt(tfYear.getText()); } catch (Exception ex) {}
-        Car car = new Car(0, selectedClient.getUser_ID(), plate, tfBrand.getText(), tfModel.getText(), year, "VIN_DEFAULT");
+        if (!ValidationUtils.isValidRomanianPlate(plate)) {
+            JOptionPane.showMessageDialog(this, "Nr. de inmatriculare invalid pentru Romania!", "Eroare", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        int year;
+        try {
+            year = Integer.parseInt(tfYear.getText());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "An invalid!", "Eroare", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (!ValidationUtils.isValidYear(year)) {
+            JOptionPane.showMessageDialog(this, "An invalid! Trebuie intre 1980 si 2026.", "Eroare", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String normalizedPlate = ValidationUtils.normalizePlate(plate);
+        Car car = new Car(0, selectedClient.getUser_ID(), normalizedPlate, tfBrand.getText(), tfModel.getText(), year, "VIN_DEFAULT");
         carDAO.create(car);
         refreshCarTable();
         clearForm();

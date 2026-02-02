@@ -23,11 +23,9 @@ public class AuthService {
         return null;
     }
 
-
     public void logout() {
         this.currentUser = null;
     }
-
 
     public User getCurrentUser() {
         return currentUser;

@@ -39,14 +39,12 @@ public class CreateRepairDialog extends JDialog {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        // Car selection
         gbc.gridx = 0; gbc.gridy = 0;
         panel.add(new JLabel("Car:"), gbc);
         gbc.gridx = 1; gbc.gridy = 0; gbc.weightx = 1.0;
         carComboBox = new JComboBox<>();
         panel.add(carComboBox, gbc);
 
-        // Details
         gbc.gridx = 0; gbc.gridy = 1; gbc.anchor = GridBagConstraints.NORTH;
         panel.add(new JLabel("Details:"), gbc);
         gbc.gridx = 1; gbc.gridy = 1; gbc.weighty = 1.0; gbc.fill = GridBagConstraints.BOTH;
@@ -55,13 +53,12 @@ public class CreateRepairDialog extends JDialog {
 
         add(panel, BorderLayout.CENTER);
 
-        // Buttons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton createButton = new JButton("Create");
         createButton.addActionListener(e -> createRepair());
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e -> dispose());
-        
+
         buttonPanel.add(createButton);
         buttonPanel.add(cancelButton);
         add(buttonPanel, BorderLayout.SOUTH);
@@ -69,10 +66,12 @@ public class CreateRepairDialog extends JDialog {
 
     private void loadCars() {
         new SwingWorker<List<Car>, Void>() {
+
             @Override
             protected List<Car> doInBackground() {
                 return carService.findAll();
             }
+
             @Override
             protected void done() {
                 try {
@@ -92,13 +91,18 @@ public class CreateRepairDialog extends JDialog {
             return;
         }
         String details = detailsTextArea.getText();
-        if (details.trim().isEmpty()) {
+        if (details == null || details.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please provide repair details.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         Reservation newReservation = new Reservation(selectedCar, LocalDate.now(), details, currentMechanic);
-        reservationService.create(newReservation);
+        try {
+            reservationService.create(newReservation);
+        } catch (IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         JOptionPane.showMessageDialog(this, "Repair order created successfully!");
         dispose();

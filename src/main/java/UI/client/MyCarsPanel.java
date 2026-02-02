@@ -18,7 +18,7 @@ public class MyCarsPanel extends JPanel {
 
     public MyCarsPanel() {
         setLayout(new BorderLayout());
-        
+
         tableModel = new DefaultTableModel(new String[]{"ID", "Make", "Model", "Year", "VIN"}, 0);
         carTable = new JTable(tableModel);
         add(new JScrollPane(carTable), BorderLayout.CENTER);
@@ -28,6 +28,7 @@ public class MyCarsPanel extends JPanel {
 
     private void loadCars() {
         new SwingWorker<List<Car>, Void>() {
+
             @Override
             protected List<Car> doInBackground() {
                 return carService.findCarsByOwnerId(currentUser.getUser_ID());
@@ -37,7 +38,7 @@ public class MyCarsPanel extends JPanel {
             protected void done() {
                 try {
                     List<Car> cars = get();
-                    tableModel.setRowCount(0); // Clear existing data
+                    tableModel.setRowCount(0);
                     for (Car car : cars) {
                         tableModel.addRow(new Object[]{car.getCar_ID(), car.getBrand(), car.getModel(), car.getYear(), car.getLicence_Plate()});
                     }

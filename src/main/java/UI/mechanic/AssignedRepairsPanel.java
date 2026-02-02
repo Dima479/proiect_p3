@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AssignedRepairsPanel extends JPanel {
     private final ReservationService reservationService = new ReservationService();
@@ -18,13 +19,13 @@ public class AssignedRepairsPanel extends JPanel {
 
     public AssignedRepairsPanel() {
         setLayout(new BorderLayout());
-        
+
         tableModel = new DefaultTableModel(new String[]{"ID", "Car", "Date", "Status", "Details"}, 0);
         table = new JTable(tableModel);
         add(new JScrollPane(table), BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        
+
         JButton createButton = new JButton("Create New Repair");
         createButton.addActionListener(e -> openCreateDialog());
         buttonPanel.add(createButton);
@@ -32,7 +33,7 @@ public class AssignedRepairsPanel extends JPanel {
         JButton editButton = new JButton("Edit Selected Repair");
         editButton.addActionListener(e -> openEditDialog());
         buttonPanel.add(editButton);
-        
+
         add(buttonPanel, BorderLayout.SOUTH);
 
         loadReservations();
@@ -40,9 +41,12 @@ public class AssignedRepairsPanel extends JPanel {
 
     private void loadReservations() {
         new SwingWorker<List<Reservation>, Void>() {
+
             @Override
             protected List<Reservation> doInBackground() {
-                return reservationService.findReservationsByMechanicId(currentUser.getUser_ID());
+                return reservationService.findReservationsByMechanicId(currentUser.getUser_ID()).stream()
+                        .filter(r -> r.getStatus() != Reservation.Status.COMPLETED)
+                        .collect(Collectors.toList());
             }
 
             @Override
@@ -52,10 +56,10 @@ public class AssignedRepairsPanel extends JPanel {
                     tableModel.setRowCount(0);
                     for (Reservation r : reservations) {
                         tableModel.addRow(new Object[]{
-                            r.getReservation_ID(), 
-                            r.getCar(), // toString() from Car will be used
-                            r.getDate(), 
-                            r.getStatus(), 
+                            r.getReservation_ID(),
+                            r.getCar(),
+                            r.getDate(),
+                            r.getStatus(),
                             r.getDetails()
                         });
                     }
@@ -70,7 +74,7 @@ public class AssignedRepairsPanel extends JPanel {
     private void openCreateDialog() {
         CreateRepairDialog dialog = new CreateRepairDialog((Frame) SwingUtilities.getWindowAncestor(this));
         dialog.setVisible(true);
-        loadReservations(); // Refresh list after creation
+        loadReservations();
     }
 
     private void openEditDialog() {
@@ -83,6 +87,6 @@ public class AssignedRepairsPanel extends JPanel {
         int reservationId = (int) table.getValueAt(selectedRow, 0);
         RepairWorkDialog dialog = new RepairWorkDialog((Frame) SwingUtilities.getWindowAncestor(this), reservationId);
         dialog.setVisible(true);
-        loadReservations(); // Refresh list after edit
+        loadReservations();
     }
 }

@@ -1,4 +1,4 @@
-package UI.admin;
+package ui.admin;
 
 import model.Mechanic;
 import service.MechanicService;
@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
+import util.ValidationUtils;
 
 public class MechanicsManagementPanel extends JPanel {
     private final MechanicService mechanicService = new MechanicService();
@@ -24,7 +25,7 @@ public class MechanicsManagementPanel extends JPanel {
         JButton addButton = new JButton("Add Mechanic");
         addButton.addActionListener(e -> addMechanic());
         buttonPanel.add(addButton);
-        
+
         JButton deleteButton = new JButton("Delete Selected");
         deleteButton.addActionListener(e -> deleteMechanic());
         buttonPanel.add(deleteButton);
@@ -36,6 +37,7 @@ public class MechanicsManagementPanel extends JPanel {
 
     private void loadMechanics() {
         new SwingWorker<List<Mechanic>, Void>() {
+
             @Override
             protected List<Mechanic> doInBackground() {
                 return mechanicService.findAll();
@@ -55,26 +57,30 @@ public class MechanicsManagementPanel extends JPanel {
             }
         }.execute();
     }
-    
+
     private void addMechanic() {
         JTextField nameField = new JTextField();
         JTextField emailField = new JTextField();
         JPasswordField passwordField = new JPasswordField();
         JTextField experienceField = new JTextField();
-        
+
         Object[] message = {
             "Name:", nameField,
             "Email:", emailField,
             "Password:", passwordField,
             "Experience:", experienceField
         };
-        
+
         int option = JOptionPane.showConfirmDialog(this, message, "Add Mechanic", JOptionPane.OK_CANCEL_OPTION);
-        
+
         if (option == JOptionPane.OK_OPTION) {
             String password = new String(passwordField.getPassword());
             if (password.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Password cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (!ValidationUtils.isValidEmail(emailField.getText())) {
+                JOptionPane.showMessageDialog(this, "Email invalid! Format: xxxx@xxx.xxx", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -82,14 +88,19 @@ public class MechanicsManagementPanel extends JPanel {
             m.setName(nameField.getText());
             m.setEmail(emailField.getText());
             m.setPassword(password);
-            m.setExperience(Double.parseDouble(experienceField.getText()));
+            try {
+                m.setExperience(Double.parseDouble(experienceField.getText()));
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Experience invalid.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             m.setRole("MECHANIC");
 
             mechanicService.save(m);
             loadMechanics();
         }
     }
-    
+
     private void deleteMechanic() {
         int selectedRow = table.getSelectedRow();
         if (selectedRow >= 0) {

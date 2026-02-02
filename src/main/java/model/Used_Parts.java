@@ -8,15 +8,15 @@ public class Used_Parts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Used_Parts_ID;
-    
+
     @ManyToOne
     @JoinColumn(name = "reservation_id")
     private Reservation Reservation;
-    
+
     @ManyToOne
     @JoinColumn(name = "part_id")
     private Part Part;
-    
+
     private int Quantity;
 
     public Used_Parts() {}

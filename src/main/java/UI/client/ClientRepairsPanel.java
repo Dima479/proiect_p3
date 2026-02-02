@@ -22,7 +22,7 @@ public class ClientRepairsPanel extends JPanel {
 
     public ClientRepairsPanel() {
         setLayout(new BorderLayout());
-        
+
         tableModel = new DefaultTableModel(new String[]{"Repair ID", "Car", "Date", "Status", "Details"}, 0);
         table = new JTable(tableModel);
         add(new JScrollPane(table), BorderLayout.CENTER);
@@ -32,12 +32,12 @@ public class ClientRepairsPanel extends JPanel {
 
     private void loadClientRepairs() {
         new SwingWorker<List<Reservation>, Void>() {
+
             @Override
             protected List<Reservation> doInBackground() {
-                // 1. Gaseste masinile clientului
+
                 List<Car> clientCars = carService.findCarsByOwnerId(currentUser.getUser_ID());
-                
-                // 2. Gaseste toate reparatiile pentru fiecare masina
+
                 List<Reservation> allRepairs = new ArrayList<>();
                 for (Car car : clientCars) {
                     allRepairs.addAll(reservationService.findReservationsByCarId(car.getCar_ID()));
@@ -53,7 +53,7 @@ public class ClientRepairsPanel extends JPanel {
                     for (Reservation r : reservations) {
                         tableModel.addRow(new Object[]{
                             r.getReservation_ID(),
-                            r.getCar(), // Foloseste toString() din Car
+                            r.getCar(),
                             r.getDate(),
                             r.getStatus(),
                             r.getDetails()

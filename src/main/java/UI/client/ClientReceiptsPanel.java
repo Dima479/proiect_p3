@@ -26,7 +26,7 @@ public class ClientReceiptsPanel extends JPanel {
 
     public ClientReceiptsPanel() {
         setLayout(new BorderLayout());
-        
+
         tableModel = new DefaultTableModel(new String[]{"Receipt ID", "Repair ID", "Date", "Value"}, 0);
         table = new JTable(tableModel);
         add(new JScrollPane(table), BorderLayout.CENTER);
@@ -36,19 +36,18 @@ public class ClientReceiptsPanel extends JPanel {
 
     private void loadClientReceipts() {
         new SwingWorker<List<Reciept>, Void>() {
+
             @Override
             protected List<Reciept> doInBackground() {
-                // 1. Gaseste masinile clientului
+
                 List<Car> clientCars = carService.findCarsByOwnerId(currentUser.getUser_ID());
-                
-                // 2. Gaseste ID-urile reparatiilor pentru aceste masini
+
                 List<Integer> repairIds = new ArrayList<>();
                 for (Car car : clientCars) {
                     reservationService.findReservationsByCarId(car.getCar_ID())
                         .forEach(r -> repairIds.add(r.getReservation_ID()));
                 }
 
-                // 3. Filtreaza toate chitantele din sistem
                 return receiptService.findAll().stream()
                     .filter(receipt -> receipt.getReservation() != null && repairIds.contains(receipt.getReservation().getReservation_ID()))
                     .collect(Collectors.toList());

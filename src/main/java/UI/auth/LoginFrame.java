@@ -57,6 +57,7 @@ public class LoginFrame extends JFrame {
         loginButton.setText("Logging in...");
 
         new SwingWorker<User, Void>() {
+
             @Override
             protected User doInBackground() {
                 return authService.login(email, password);

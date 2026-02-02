@@ -4,6 +4,7 @@ import DB.JPAUtil;
 import model.Reciept;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import java.util.List;
 
 public class RecieptDAO {
@@ -29,6 +30,21 @@ public class RecieptDAO {
         EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
         try {
             return em.find(Reciept.class, id);
+        } finally {
+            em.close();
+        }
+    }
+
+    public Reciept findByReservationId(int reservationId) {
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        try {
+            return em.createQuery(
+                    "SELECT r FROM Reciept r WHERE r.Reservation.Reservation_ID = :id",
+                    Reciept.class)
+                    .setParameter("id", reservationId)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
         } finally {
             em.close();
         }

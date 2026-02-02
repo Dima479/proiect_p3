@@ -39,7 +39,7 @@ public class ReservationDAO {
         EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
         try {
             return em.createQuery(
-                "SELECT r FROM Reservation r LEFT JOIN FETCH r.Parts WHERE r.Reservation_ID = :id", 
+                "SELECT r FROM Reservation r LEFT JOIN FETCH r.Parts WHERE r.Reservation_ID = :id",
                 Reservation.class)
                 .setParameter("id", id)
                 .getSingleResult();
@@ -90,7 +90,7 @@ public class ReservationDAO {
     public List<Reservation> findAll() {
         EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
         try {
-            // Incarcam si masinile pentru a evita probleme similare in tabel
+
             return em.createQuery("SELECT DISTINCT r FROM Reservation r LEFT JOIN FETCH r.car", Reservation.class).getResultList();
         } finally {
             em.close();

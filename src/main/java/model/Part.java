@@ -52,4 +52,9 @@ public class Part {
     public void setQuantity_in_stock(int quantity_in_stock) {
         Quantity_in_stock = quantity_in_stock;
     }
+
+    @Override
+    public String toString() {
+        return Name;
+    }
 }
